@@ -1,0 +1,31 @@
+package com.egencodechallenge.orderservice.models;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Data
+public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @NotNull
+    private String addressLine1;
+
+    private String addressLine2;
+
+    @ManyToOne
+    private City city;
+
+    @ManyToOne
+    private State state;
+
+    @NotNull
+    private String zipCode;
+
+
+}
