@@ -1,4 +1,4 @@
-# PLAYGROUND
+# Order Service
 
 ## Steps to build the docker image
 
