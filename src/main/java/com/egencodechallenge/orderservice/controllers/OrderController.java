@@ -1,6 +1,7 @@
 package com.egencodechallenge.orderservice.controllers;
 
 import com.egencodechallenge.orderservice.constants.MessageConstants;
+import com.egencodechallenge.orderservice.dtos.ResponseDto;
 import com.egencodechallenge.orderservice.dtos.ErrorResponseDto;
 import com.egencodechallenge.orderservice.dtos.OrderDto;
 import com.egencodechallenge.orderservice.services.OrderService;
@@ -28,7 +29,7 @@ public class OrderController {
 
         try {
             Optional<OrderDto> order = service.getOrderById(orderId);
-            return order.<ResponseEntity<Object>>map(orders -> new ResponseEntity<>(orders, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new ErrorResponseDto(MessageConstants.NO_SUCH_ORDER, MessageConstants.INVALID_ORDER_ID + orderId), HttpStatus.OK));
+            return order.<ResponseEntity<Object>>map(orders -> new ResponseEntity<>(orders, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new ErrorResponseDto(MessageConstants.INVALID_ORDER, MessageConstants.NO_SUCH_ORDER + orderId), HttpStatus.OK));
         } catch (Exception ex) {
             logger.error("Exception getting order {}", ex);
             return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.SERVER_ERROR, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -48,6 +49,19 @@ public class OrderController {
 
         }
 
+    }
+
+    @GetMapping("/cancel")
+    ResponseEntity<Object> cancelOrder(@RequestParam UUID orderId) {
+        logger.info("Processing cancel Order Request for id : {}", orderId);
+
+        try {
+            ResponseDto response = service.cancelOrder(orderId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error("Exception getting order {}", ex);
+            return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.SERVER_ERROR, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

@@ -2,7 +2,7 @@ package com.egencodechallenge.orderservice.services;
 
 import com.egencodechallenge.orderservice.constants.MessageConstants;
 import com.egencodechallenge.orderservice.constants.OrderStatusEnum;
-import com.egencodechallenge.orderservice.dtos.CreateResponseDto;
+import com.egencodechallenge.orderservice.dtos.ResponseDto;
 import com.egencodechallenge.orderservice.dtos.OrderDto;
 import com.egencodechallenge.orderservice.mappers.OrdersMapper;
 import com.egencodechallenge.orderservice.mappers.PaymentInfoMapper;
@@ -56,19 +56,40 @@ public class OrderService {
 
     }
 
+    public ResponseDto cancelOrder(UUID orderId) {
+
+        logger.info("Cancelling order {}", orderId);
+
+        Optional<Orders> order = orderRepository.findById(orderId);
+
+        if (order.isPresent()) {
+            if (order.get().getStatus().getStatus().equals(OrderStatusEnum.COMPLETE.name())) {
+                return new ResponseDto(MessageConstants.ORDER_ALREADY_COMPLETED);
+            }
+
+            logger.debug("Updating status to cancel");
+            order.get().setStatus(orderStatus.findByStatus(OrderStatusEnum.CANCELLED.name()));
+            orderRepository.save(order.get());
+            return new ResponseDto(MessageConstants.SUCCESSFULLY_CANCELED + orderId);
+
+        }
+        return (new ResponseDto(MessageConstants.NO_SUCH_ORDER + orderId));
+
+    }
+
     /**
      * Creates an order
      *
      * @param orderDto The {@link OrderDto} having order info
-     * @return {@link CreateResponseDto} having new id
+     * @return {@link ResponseDto} having new id
      */
-    public CreateResponseDto createOrder(OrderDto orderDto) {
+    public ResponseDto createOrder(OrderDto orderDto) {
         try {
 
             if (!orderServiceUtil.validateOrder(orderDto)) {
                 //Todo : Handle invalid order response
 
-                return new CreateResponseDto(MessageConstants.INVALID_ORDER, null);
+                return new ResponseDto(MessageConstants.INVALID_ORDER);
             }
 
             //Extracting payment information to be sent to payment service
@@ -86,20 +107,21 @@ public class OrderService {
 
             logger.info("Processing payment for order {} ", createdOrder.getId());
 
-            //Call to payment service with payment Information. This service sets the status of the order to PAYMENT_PROCESSING before processing the payment
-            // returns the confirmation number
+            //Call to 'payment service' with payment Information.
+            //
+            // This service sets the status of the order to PROCESSING before processing the payment and updates the
+            // the confirmation number
 
 
-            createdOrder.setStatus(orderStatus.findByStatus(OrderStatusEnum.COMPLETE.name()));
-            orderRepository.save(createdOrder);
+//            orderRepository.save(createdOrder);
 
 
             logger.info("Created order : {} ", newOrder.getId());
             logger.info("Creating order for customer : {}", orderDto.getCustomer().getId());
-            return new CreateResponseDto(MessageConstants.CREATED_ENITY, newOrder.getId().toString());
+            return new ResponseDto(MessageConstants.CREATED_ENITY, newOrder.getId().toString());
         } catch (Exception ex) {
             logger.error("Exception creating order {}", ex);
-            return new CreateResponseDto(MessageConstants.SERVER_ERROR, null);
+            return new ResponseDto(MessageConstants.SERVER_ERROR);
         }
     }
 

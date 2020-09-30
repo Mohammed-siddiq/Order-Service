@@ -21,6 +21,11 @@ public class OrderServiceUtil {
     public boolean validateOrder(OrderDto order) {
 
         // Any specific validation required in the order can be processed here
+
+        //Validate sales tax
+
+        //Cross check totals
+
         return true;
     }
 }

@@ -8,9 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateResponseDto {
+public class ResponseDto {
 
-    String message;
-    String id;
+    private String message;
+    private String id;
+
+    public ResponseDto(String message) {
+        this.message = message;
+    }
+
 
 }

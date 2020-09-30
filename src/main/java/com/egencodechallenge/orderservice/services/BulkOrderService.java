@@ -1,20 +1,15 @@
 package com.egencodechallenge.orderservice.services;
 
 import com.egencodechallenge.orderservice.dtos.BulkOrderDto;
-import com.egencodechallenge.orderservice.dtos.CreateResponseDto;
-import com.egencodechallenge.orderservice.dtos.OrderDto;
+import com.egencodechallenge.orderservice.dtos.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -31,7 +26,7 @@ public class BulkOrderService {
 
         logger.info("Received bulk order processing by client : {}", bulkOrder.getClientId());
 
-        List<CreateResponseDto> response = bulkOrder.getOrders().parallelStream().map(order -> orderService.createOrder(order)).collect(Collectors.toList());
+        List<ResponseDto> response = bulkOrder.getOrders().parallelStream().map(order -> orderService.createOrder(order)).collect(Collectors.toList());
 
         logger.info("Bulk Orders processed..");
 

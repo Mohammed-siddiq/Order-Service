@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-# Refer to Maven build -> finalName
+
 ARG JAR_FILE=target/order-service-dev-build.jar
 
 # cd /opt/app
