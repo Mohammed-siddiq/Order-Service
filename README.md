@@ -181,4 +181,17 @@ _Swagger Documentation can be referred after running the service by visiting : h
       
 ## Bulk order Support through Kafka
 
+Bulk orders are processed asynchronously using Kafka. The following is the sample kafka message to be sent to the `Service-bulk-orders` topic
 
+
+```json
+{ "orders": [ { "customer": { "id": 1 }, "items": [ { "id": 1, "quantity": 1 }, { "id": 2, "quantity": 1 } ], "shippingMethod": { "id": 1 }, "shippingCharges": 10.95, "totalTax": 30, "subTotal": 50.35, "orderTotal": 90.95, "shippingAddress": { "id": 1 }, "billingAddress": { "id": 1 }, "paymentInfo": { "paymentMethod": { "id": 1 }, "cards": [ { "id": 1 }, { "id": 2 } ] } },
+{ "customer": { "id": 1 }, "items": [ { "id": 2, "quantity": 1 }, { "id": 3, "quantity": 1 } ], "shippingMethod": { "id": 1 }, "shippingCharges": 100.95, "totalTax": 130, "subTotal": 150.35, "orderTotal": 190.95, "shippingAddress": { "id": 2 }, "billingAddress": { "id": 2 }, "paymentInfo": { "paymentMethod": { "id": 1 }, "cards": [ { "id": 3 }, { "id": 4 } ] } },
+{ "customer": { "id": 3 }, "items": [ { "id": 1, "quantity": 1 }, { "id": 2, "quantity": 1 } ], "shippingMethod": { "id": 1 }, "shippingCharges": 10.95, "totalTax": 30, "subTotal": 50.35, "orderTotal": 90.95, "shippingAddress": { "id": 1 }, "billingAddress": { "id": 1 }, "paymentInfo": { "paymentMethod": { "id": 1 }, "cards": [ { "id": 1 }, { "id": 2 } ] } } ] }
+```
+
+
+
+Kafka deserializer deserializes the above kafka message into BulkOrderDTO, from where these orders are processed asynchronously.
+
+The bulkOrder processor accumulates the order creation response from the service for individual orders and can publish the bulk response to a different topic on which the clients can listen to.
