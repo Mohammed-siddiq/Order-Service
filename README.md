@@ -170,12 +170,14 @@ _Swagger Documentation can be referred after running the service by visiting : h
         "id": "e0ef00ca-f6d8-42c2-8b38-09c51c78f0ad"
     }
    
--   
-      {
-          "message": "Order id not found",
-          "id": "e0ef00ca-f6d8-42c2-8b38-09c51c78f0a2"
-      }
-      
+--  
+
+    
+    {
+      "message": "Order id not found",
+      "id": "e0ef00ca-f6d8-42c2-8b38-09c51c78f0a2"
+    }
+
       
 ## Bulk order Support through Kafka
 
