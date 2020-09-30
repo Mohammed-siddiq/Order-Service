@@ -36,37 +36,6 @@ public class KafkaListenerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-//    @Bean
-//    public Map<String, Object> consumerConfigs() {
-//        Map<String, Object> props = new HashMap<>();
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, kafkaDeserializer());
-//        props.put(ConsumerConfig.GROUP_ID_CONFIG, "batch");
-//        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "5");
-//        return props;
-//    }
-//
-//    private Deserializer<List<OrderDto>> kafkaDeserializer() {
-//        ObjectMapper om = new ObjectMapper();
-//        om.getTypeFactory().constructParametricType(List.class, OrderDto.class);
-//        return new JsonDeserializer<>(om);
-//    }
-//
-//    @Bean
-//    public ConsumerFactory<String, List<OrderDto>> consumerFactory() {
-//        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(List.class));
-//    }
-//
-//    @Bean
-//    public KafkaListenerContainerFactory<?> kafkaListenerContainerFactory() {
-//        ConcurrentKafkaListenerContainerFactory<String, List<OrderDto>> factory =
-//                new ConcurrentKafkaListenerContainerFactory<>();
-//        factory.setConsumerFactory(consumerFactory());
-//        factory.setBatchListener(true);
-//        return factory;
-//    }
-
     @Bean
     public ConsumerFactory<String, BulkOrderDto> consumerFactory() {
         JsonDeserializer<BulkOrderDto> deserializer = new JsonDeserializer<>(BulkOrderDto.class);
