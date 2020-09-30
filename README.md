@@ -200,4 +200,4 @@ The bulkOrder processor accumulates the order creation response from the service
 ### Caveats
 
 * Using UUID as the primary key for orders, this can be bit expensive when number of orders increase in the system as each UUID 128 bit long which means db indexes on this table become expensive.
-  
+* An additional layer between the repository and the service could potentially be added to increase the code decoupling
