@@ -195,3 +195,9 @@ Bulk orders are processed asynchronously using Kafka. The following is the sampl
 Kafka deserializer deserializes the above kafka message into BulkOrderDTO, from where these orders are processed asynchronously.
 
 The bulkOrder processor accumulates the order creation response from the service for individual orders and can publish the bulk response to a different topic on which the clients can listen to.
+
+
+### Caveats
+
+* Using UUID as the primary key for orders, this can be bit expensive when number of orders increase in the system as each UUID 128 bit long which means db indexes on this table become expensive.
+  
