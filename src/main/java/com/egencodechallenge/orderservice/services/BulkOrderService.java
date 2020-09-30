@@ -31,6 +31,8 @@ public class BulkOrderService {
         logger.info("Bulk Orders processed..");
 
         logger.info("Sending the bulk order response : {} ", response);
+
+        // write/publish the response payloads to a different topic to which the client can subscribe
     }
 
 }
