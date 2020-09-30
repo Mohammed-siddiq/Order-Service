@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("api/order")
 public class OrderController {
@@ -20,29 +23,28 @@ public class OrderController {
     OrderService service;
 
     @GetMapping
-    ResponseEntity<Object> getOrderById(@RequestParam String orderId){
+    ResponseEntity<Object> getOrderById(@RequestParam UUID orderId) {
         logger.info("Processing get Order Request for id : {}", orderId);
 
         try {
-            return new ResponseEntity<>(service.getOrderById(orderId), HttpStatus.OK);
-        }
-        catch (Exception ex){
+            Optional<OrderDto> order = service.getOrderById(orderId);
+            return order.<ResponseEntity<Object>>map(orders -> new ResponseEntity<>(orders, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new ErrorResponseDto(MessageConstants.NO_SUCH_ORDER, MessageConstants.INVALID_ORDER_ID + orderId), HttpStatus.OK));
+        } catch (Exception ex) {
             logger.error("Exception getting order {}", ex);
-            return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.serverErrorMessage,ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.SERVER_ERROR, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping
-    ResponseEntity<Object> createOrder(@RequestBody OrderDto orderDto){
+    ResponseEntity<Object> createOrder(@RequestBody OrderDto orderDto) {
 
         logger.info("Processing create order request for customer : {} ", orderDto.getCustomer().getId());
 
         try {
             return new ResponseEntity<>(service.createOrder(orderDto), HttpStatus.CREATED);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             logger.error("Exception creating order {}", ex);
-            return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.serverErrorMessage,ex.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ErrorResponseDto(MessageConstants.SERVER_ERROR, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 

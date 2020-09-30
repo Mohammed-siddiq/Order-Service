@@ -8,7 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;@Entity
+import org.joda.time.DateTimeZone;
+
+import java.util.Date;
+
+@Entity
 @Data
 public class Card {
 
@@ -25,10 +29,10 @@ public class Card {
     private String name;
 
     @NotNull
-    private DateTime expiryDate;
+    private Date expiryDate;
 
 
-    private DateTime createdAt = new DateTime(DateTimeZone.UTC);
+    private Date createdAt = new Date();
 
 
 }

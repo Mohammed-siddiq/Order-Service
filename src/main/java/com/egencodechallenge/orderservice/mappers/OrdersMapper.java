@@ -7,15 +7,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper
-public interface OrdersMapper {
+public abstract class OrdersMapper {
 
-    OrdersMapper INSTANCE = Mappers.getMapper(OrdersMapper.class);
+    public static OrdersMapper INSTANCE = Mappers.getMapper(OrdersMapper.class);
 
-    OrderDto getOrdersDto(Orders orders);
-    Orders getOrder(OrderDto order);
+    public abstract OrderDto getOrdersDto(Orders orders);
 
-    List<OrderDto> getOrdersList(List<Orders> orders);
+    public abstract Orders getOrder(OrderDto order);
+
+    public OrderDto generateOrderDto(Orders order) {
+        OrderDto orderDto = getOrdersDto(order);
+        orderDto.setOrderId(order.getId());
+        return orderDto;
+    }
 
 }

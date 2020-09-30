@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;@Entity
 @Data
@@ -27,7 +29,7 @@ public class Customer {
     @ManyToOne
     private Address billingAddress;
 
-    private DateTime createdAt = new DateTime(DateTimeZone.UTC);
+    private Date createdAt = new Date();
 
     @OneToMany
     private Collection<Card> cards;

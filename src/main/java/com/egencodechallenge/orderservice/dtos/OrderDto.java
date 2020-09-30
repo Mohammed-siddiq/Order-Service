@@ -7,12 +7,16 @@ import com.egencodechallenge.orderservice.models.ShippingMethod;
 import lombok.Data;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;import java.util.List;
+import org.joda.time.DateTimeZone;
+
+import java.util.List;
 import java.util.UUID;
 
+/**
+ * DTO for Order request
+ */
 @Data
 public class OrderDto {
-
 
 
     private UUID orderId;
@@ -36,10 +40,6 @@ public class OrderDto {
     private double totalTax;
 
     private double orderTotal;
-
-    private DateTime createdAt;
-
-    private DateTime modifiedAt;
 
 
 }

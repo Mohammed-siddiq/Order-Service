@@ -13,6 +13,6 @@ INSERT into Shipping_Method values (1,true,NULL,'In store Pickup'), (2,true,NULL
 
 INSERT into Customer values (1,'2020-10-20 00:00:00','Mohammed Siddiq',1,1), (2,NULL,'Test',1,1)
 
-INSERT into order_status values (1,'CREATED'), (2,'PAYMENT_PROCESSING'), (3,'COMPLETE')
+INSERT into order_status values (1,'CREATED'), (2,'PAYMENT_PROCESSING'), (3,'COMPLETE'), (4,'CANCELLED')
 
 INSERT into Card values (1,'1234567890', '2020-10-20 00:00:00','2026-10-20 00:00:00','Mohammed Siddiq'), (2,'1234567832', '2020-12-20 00:00:00','2025-10-20 00:00:00','Mohammed Siddiq')

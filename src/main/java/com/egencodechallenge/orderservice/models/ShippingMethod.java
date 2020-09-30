@@ -9,7 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;@Entity
+import org.joda.time.DateTimeZone;
+
+import java.util.Date;
+
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +27,7 @@ public class ShippingMethod {
 
     private boolean active;
 
-    private DateTime createdAt = new DateTime(DateTimeZone.UTC);
+    private Date createdAt = new Date();
 
 
 }

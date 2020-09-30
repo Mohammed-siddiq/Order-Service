@@ -1,5 +1,6 @@
 package com.egencodechallenge.orderservice.services;
 
+import com.egencodechallenge.orderservice.dtos.BulkOrderDto;
 import com.egencodechallenge.orderservice.dtos.CreateResponseDto;
 import com.egencodechallenge.orderservice.dtos.OrderDto;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * Defines the bulk order service processing using Kafka cosumer
@@ -22,23 +24,18 @@ import java.util.concurrent.ExecutionException;
 public class BulkOrderService {
     @Autowired
     OrderService orderService;
-    private static final Logger LOG = LoggerFactory.getLogger(BulkOrderService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BulkOrderService.class);
 
     @KafkaListener(id = "orders-listener", topics = "${app.kafka.topic}")
-    public void receive(@Payload OrderDto order) {
+    public void receive(@Payload BulkOrderDto bulkOrder) {
 
-        LOG.info("creating order='{}'", order);
+        logger.info("Received bulk order processing by client : {}", bulkOrder.getClientId());
 
-        CompletableFuture<CreateResponseDto> response = orderService.createOrderAsync(order);
+        List<CreateResponseDto> response = bulkOrder.getOrders().parallelStream().map(order -> orderService.createOrder(order)).collect(Collectors.toList());
 
-        try {
-            LOG.info("Created order with order Id: {}", response.get().getId());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        logger.info("Bulk Orders processed..");
 
+        logger.info("Sending the bulk order response : {} ", response);
     }
 
 }

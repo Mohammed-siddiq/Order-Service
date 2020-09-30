@@ -7,6 +7,7 @@ import org.joda.time.DateTimeZone;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 
 @Entity
@@ -46,9 +47,9 @@ public class Orders extends EntityWithUUID {
     @ManyToOne
     private PaymentInfo paymentInfo;
 
-    private DateTime createdAt = new DateTime(DateTimeZone.UTC);
+    private Date createdAt = new Date();
 
-    private DateTime modifiedAt = new DateTime(DateTimeZone.UTC);
+    private Date modifiedAt = new Date();
 
 
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;@Data
 @AllArgsConstructor
@@ -28,7 +30,7 @@ public class PaymentInfo{
     @ManyToMany
     private Collection<Card> cards;
 
-    private DateTime createdAt = new DateTime(DateTimeZone.UTC);
+    private Date createdAt = new Date();
 
 
 }

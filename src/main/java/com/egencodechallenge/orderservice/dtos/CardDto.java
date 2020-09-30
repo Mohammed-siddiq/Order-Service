@@ -10,9 +10,4 @@ public class CardDto {
     private String cardNumber;
 
     private String name;
-
-    private DateTime expiryDate;
-
-    private DateTime createdAt;
-
 }

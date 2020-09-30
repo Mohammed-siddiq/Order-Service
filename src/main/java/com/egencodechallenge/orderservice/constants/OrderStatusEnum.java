@@ -9,6 +9,7 @@ public enum OrderStatusEnum {
 
     CREATED,
     PAYMENT_PROCESSING,
-    COMPLETE
+    COMPLETE,
+    CANCELLED
 
 }
