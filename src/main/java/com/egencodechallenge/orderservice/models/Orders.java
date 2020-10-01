@@ -1,7 +1,9 @@
 package com.egencodechallenge.orderservice.models;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -11,6 +13,8 @@ import java.util.Date;
 
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Orders extends EntityWithUUID {
 

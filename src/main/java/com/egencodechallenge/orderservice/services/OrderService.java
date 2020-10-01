@@ -28,17 +28,21 @@ public class OrderService {
 
     private static Logger logger = LoggerFactory.getLogger(OrderService.class);
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+
+    private final PaymentInfoRepository paymentRepository;
+
+    private final OrderServiceUtil orderServiceUtil;
+
+    private final OrderStatusRepository orderStatus;
 
     @Autowired
-    private PaymentInfoRepository paymentRepository;
-
-    @Autowired
-    private OrderServiceUtil orderServiceUtil;
-
-    @Autowired
-    private OrderStatusRepository orderStatus;
+    public OrderService(OrderRepository orderRepository, PaymentInfoRepository paymentRepository, OrderServiceUtil orderServiceUtil, OrderStatusRepository orderStatus) {
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+        this.orderServiceUtil = orderServiceUtil;
+        this.orderStatus = orderStatus;
+    }
 
 
     /***
@@ -118,7 +122,7 @@ public class OrderService {
 
             logger.info("Created order : {} ", newOrder.getId());
             logger.info("Creating order for customer : {}", orderDto.getCustomer().getId());
-            return new ResponseDto(MessageConstants.CREATED_ENITY, newOrder.getId().toString());
+            return new ResponseDto(MessageConstants.CREATED_ENTITY, newOrder.getId().toString());
         } catch (Exception ex) {
             logger.error("Exception creating order {}", ex);
             return new ResponseDto(MessageConstants.SERVER_ERROR);

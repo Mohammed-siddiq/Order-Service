@@ -9,7 +9,9 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;@Data
+import org.joda.time.DateTimeZone;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

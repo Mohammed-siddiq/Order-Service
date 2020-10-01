@@ -4,7 +4,7 @@ package com.egencodechallenge.orderservice.constants;
  * All the Messgae constants for the service
  */
 public class MessageConstants {
-    public static final String CREATED_ENITY = "Successfully created enity.";
+    public static final String CREATED_ENTITY = "Successfully created entity.";
 
     public static final String SERVER_ERROR = "Internal server error.";
     public static final String INVALID_ORDER = "Invalid Order";
