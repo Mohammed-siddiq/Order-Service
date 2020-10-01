@@ -2,13 +2,9 @@
 
 ## Steps to build the docker image
 
-After cloning this repo run the following to build the docker image:
+After cloning this repo run the following to build the docker images and run the app:
 
-```docker build -t  order-service-dev-build:1.0```
-
-Run the docker image as:
-
-```docker run -p 8080:8080 -t order-service-dev-build:1.0 --spring.datasource.url=[{url} --spring.kafka.bootstrap-servers:{brokerlist}```
+```docker-compose build && docker-compose up```
 
 ## DB Design / Entity-Relation Diagram
 
